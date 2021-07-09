@@ -2,13 +2,10 @@ spring:
     application:
         name: aws-crud
 
-server:
-    port: 8080
-
 amazon:
     aws:
-        accesskey: 'AKIAUCR5HXTBN3VUPG5J'
-        secretkey: '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'
-        region: 'us-east-1'
+        accesskey: '${AMAZON_AWS_ACESS_KEY:AKIAUCR5HXTBN3VUPG5J}'
+        secretkey: '${AMAZON_AWS_SECRET_KEY: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}'
+        region: '${AMAZON_AWS_REGION:us-east-1}'
     dynamodb:
-        endpoint: 'dynamodb.us-east-1.amazonaws.com'
+        endpoint: '${AMAZON_DYNAMODB_ENDPOINT:dynamodb.us-east-1.amazonaws.com}'

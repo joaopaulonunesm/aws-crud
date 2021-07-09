@@ -11,3 +11,8 @@ services:
       - aws-crud-network
     ports:
       - 80:8080
+    environment:
+      AMAZON_AWS_ACESS_KEY: 'AKIAUCR5HXTBN3VUPG5J'
+      AMAZON_AWS_SECRET_KEY: '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'
+      AMAZON_AWS_REGION: 'us-east-1'
+      AMAZON_DYNAMODB_ENDPOINT: 'dynamodb.us-east-1.amazonaws.com'
