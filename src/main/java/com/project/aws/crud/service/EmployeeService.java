@@ -35,7 +35,7 @@ public class EmployeeService {
     public EmployeeDTO create(EmployeeDTO employee){
         log.info("M=create, message=Creating employee, document={}", employee.getDocument());
 
-        final Optional<Employee> employeeByDocument = getByDocument(employee.getDocument());
+        final Optional<Employee> employeeByDocument = employeeRepository.findByDocument(employee.getDocument());
 
         if (employeeByDocument.isPresent()){
             throw new BusinessException(ErrorMessages.EMPLOYEE_EXISTENT, employee.getDocument());
@@ -52,7 +52,8 @@ public class EmployeeService {
      */
     public EmployeeDTO findById(final String id){
         log.info("M=getById, message=Finding employee by ID, id={}", id);
-        return getById(id).toDTO();
+        Employee employee = employeeRepository.findById(id).orElse(null);
+        return employee == null ? null : employee.toDTO();
     }
 
     /**
@@ -63,7 +64,8 @@ public class EmployeeService {
      */
     public EmployeeDTO findByDocument(final String document){
         log.info("M=findByDocument, message=Finding employee by document, document={}", document);
-        return getByDocument(document).orElseThrow(() -> new BusinessException(ErrorMessages.EMPLOYEE_NOT_FOUND_BY_DOCUMENT, document)).toDTO();
+        Employee employee = employeeRepository.findByDocument(document).orElse(null);
+        return employee == null ? null : employee.toDTO();
     }
 
     /**
@@ -121,15 +123,5 @@ public class EmployeeService {
     private Employee getById(final String id){
         log.info("M=findByDocument, message=Finding employee by ID, id={}", id);
         return employeeRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorMessages.EMPLOYEE_NOT_FOUND_BY_ID, id));
-    }
-
-    /**
-     * Busca o funcionário no banco de dados pelo Documento
-     *
-     * @param document documento a ser encontrado
-     * @return {@code Employee} dados do funcionário encontrado
-     */
-    private Optional<Employee> getByDocument(final String document) {
-        return employeeRepository.findByDocument(document);
     }
 }

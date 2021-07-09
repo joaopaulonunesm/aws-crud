@@ -1,0 +1,13 @@
+version: '3.3'
+
+networks:
+  aws-crud-network:
+    driver: bridge
+
+services:
+  aws-crud:
+    image: joaopaulonunesm/aws-crud
+    networks:
+      - aws-crud-network
+    ports:
+      - 80:8080

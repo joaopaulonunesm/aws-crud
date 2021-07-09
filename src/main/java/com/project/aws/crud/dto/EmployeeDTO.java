@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
@@ -26,6 +27,7 @@ public class EmployeeDTO {
     @Positive
     private String document;
     @NotNull
+    @NotBlank
     private String firstName;
     private String lastName;
     @Email
