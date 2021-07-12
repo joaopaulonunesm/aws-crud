@@ -5,14 +5,65 @@ networks:
     driver: bridge
 
 services:
-  aws-crud:
-    image: joaopaulonunesm/aws-crud
+  employee-service:
+    image: joaopaulonunesm/employee-service
+    #build: "./employee-service"
     networks:
       - aws-crud-network
     ports:
-      - 80:8080
+      - 9001:9001
     environment:
       AMAZON_AWS_ACESS_KEY: 'AKIAUCR5HXTBN3VUPG5J'
       AMAZON_AWS_SECRET_KEY: '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'
       AMAZON_AWS_REGION: 'us-east-1'
       AMAZON_DYNAMODB_ENDPOINT: 'dynamodb.us-east-1.amazonaws.com'
+      EUREKA_CLIENT_SERVICE-URL_DEFAULT_ZONE: 'http://discovery-service:8761/eureka/'
+      EUREKA_INSTANCE_HOSTNAME: 'localhost'
+    depends_on:
+      - discovery-service
+      - gateway-service
+      
+  product-service:
+    image: joaopaulonunesm/product-service
+    #build: "./product-service"
+    networks:
+      - aws-crud-network
+    ports:
+      - 9002:9002
+    environment:
+      AMAZON_AWS_ACESS_KEY: 'AKIAUCR5HXTBN3VUPG5J'
+      AMAZON_AWS_SECRET_KEY: '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'
+      AMAZON_AWS_REGION: 'us-east-1'
+      AMAZON_DYNAMODB_ENDPOINT: 'dynamodb.us-east-1.amazonaws.com'
+      EUREKA_CLIENT_SERVICE-URL_DEFAULT_ZONE: 'http://discovery-service:8761/eureka/'
+      EUREKA_INSTANCE_HOSTNAME: 'localhost'
+    depends_on:
+      - discovery-service
+      - gateway-service
+
+  gateway-service:
+    image: joaopaulonunesm/gateway-service
+    #build: "./gateway-service"
+    networks:
+      - aws-crud-network
+    ports:
+      - 8080:8080
+    environment:
+      AMAZON_AWS_ACESS_KEY: 'AKIAUCR5HXTBN3VUPG5J'
+      AMAZON_AWS_SECRET_KEY: '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'
+      AMAZON_AWS_REGION: 'us-east-1'
+      AMAZON_DYNAMODB_ENDPOINT: 'dynamodb.us-east-1.amazonaws.com'
+      EUREKA_CLIENT_SERVICE-URL_DEFAULT_ZONE: 'http://discovery-service:8761/eureka/'
+      EUREKA_INSTANCE_HOSTNAME: 'localhost'
+      SPRING_CLOUD_GATEWAY_URI_EMPLOYEE_SERVICE: 'http://employee-service:9001/'
+      SPRING_CLOUD_GATEWAY_URI_PRODUCT_SERVICE: 'http://product-service:9002/'
+    depends_on:
+      - discovery-service
+
+  discovery-service:
+    image: joaopaulonunesm/discovery-service
+    #build: "./discovery-service"
+    networks:
+      - aws-crud-network
+    ports:
+      - 8761:8761
