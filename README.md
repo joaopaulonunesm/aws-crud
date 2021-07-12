@@ -31,6 +31,12 @@ Para isso, foi criado um usuário e um grupo de acesso onde vinculamos esse usu�
 
 Obs: Foi criado um ApplicationRunner na aplicação para automatizar a criação das tabelas.
 
+###### Gateway e Discovery
+A aplicação conta com um dois microserviços: [product](https://github.com/joaopaulonunesm/aws-crud/tree/feature/gateway/product-service) e [employee](https://github.com/joaopaulonunesm/aws-crud/tree/feature/gateway/employee-service)
+
+Para isso foi criado serviços de discovery e de gateway para gerenciar as chamadas aos microserviços.
+
+
 ## Como subir local:
 
 - Instalar o [Docker](https://docs.docker.com/get-docker/) (docker-compose)
@@ -57,6 +63,9 @@ sudo docker-compose up
 - Springfox Swagger
 - Spring Data DynamoDB
 - Rest Assured
+- Spring Gateway
+- Spring Eureka Client
+- Spring Eureka Server
 
 ###### Infra
 - Docker
